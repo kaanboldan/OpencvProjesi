@@ -1,1 +1,5 @@
 # OpencvProjesi
+
+```bash
+npx kaanboldan
+```
