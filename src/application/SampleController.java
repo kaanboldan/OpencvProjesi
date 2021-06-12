@@ -1,5 +1,6 @@
 package application;
 
+import java.io.File;
 import java.net.URL;
 import java.util.Calendar;
 import java.util.Date;
@@ -27,6 +28,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import net.sourceforge.tess4j.ITesseract;
+import net.sourceforge.tess4j.Tesseract;
+import net.sourceforge.tess4j.TesseractException;
 
 public class SampleController {
 
@@ -133,6 +137,7 @@ public class SampleController {
 
     return frame;
   }
+  
   private void detectAndDisplay(Mat frame) {
     MatOfRect faces = new MatOfRect();
     Mat grayFrame = new Mat();
@@ -177,11 +182,30 @@ public class SampleController {
       this.capture.release();
     }
   }
+  
   private void checkboxSelection(String classifierPath)
 	{
 		this.faceCascade.load(classifierPath);
 	}
 	
 
+  @FXML
+  private Button scan;
+
+  @FXML
+  void scanclick(ActionEvent event) {
+	File imageFile = new File("cekilen/textinjpeg.jpg");
+    ITesseract instance = new Tesseract();  
+    instance.setDatapath("tessdata"); 
+
+    try {
+        String result = instance.doOCR(imageFile);
+        resultListView.getItems().add(result);
+
+    } catch (TesseractException e) {
+        System.err.println(e.getMessage());
+    }
+	  
+  }
 
 }
