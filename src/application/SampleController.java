@@ -79,7 +79,7 @@ public class SampleController {
 
     if (!this.cameraActive)
 	{
-		this.checkboxSelection("resources/haarcascades/haarcascade_frontalface_alt.xml");
+		this.checkboxSelection("resources/haarcascade_russian_plate_number.xml");
 
 		capture.open(1);
 		
@@ -161,10 +161,21 @@ public class SampleController {
     Rect cropRect = new Rect(facesArray[i].tl(), facesArray[i].br());
 
     Mat image_roi = new Mat(frame,cropRect);       
-    Imgcodecs.imwrite("cekilen/"+System.currentTimeMillis()+"yuz.png", image_roi);
+    long time=System.currentTimeMillis();
+    Imgcodecs.imwrite("cekilen/cekilenfoto/"+time+".png", image_roi);
+    
+    //Tesseract
+	File imageFile = new File("cekilen/cekilenfoto/"+time+".png");
+    ITesseract instance = new Tesseract();  
+    instance.setDatapath("tessdata"); 
+    try {
+        String result = instance.doOCR(imageFile);
+        resultListView.getItems().add(result);
+        System.out.println("Yaziya gecti");
 
-    	System.out.println("yüz bulundu.");
-
+    } catch (TesseractException e) {
+        //System.err.println(e.getMessage());
+    }
     }
   }
   
@@ -194,8 +205,8 @@ public class SampleController {
 
   @FXML
   void scanclick(ActionEvent event) {
-	File imageFile = new File("cekilen/textinjpeg.jpg");
-    ITesseract instance = new Tesseract();  
+	File imageFile = new File("cekilen/deneme1.jpeg");
+    Tesseract instance = new Tesseract();  
     instance.setDatapath("tessdata"); 
 
     try {

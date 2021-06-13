@@ -20,7 +20,7 @@ public class Tools {
 		}
 		catch (Exception e)
 		{
-			System.err.println("Cannot convert the Mat object: " + e);
+			//System.err.println("Cannot convert the Mat object: " + e);
 			return null;
 		}
 	}
