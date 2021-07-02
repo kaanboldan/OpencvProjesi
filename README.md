@@ -1,5 +1,1 @@
 # OpencvProjesi
-
-```bash
-npx kaanboldan
-```

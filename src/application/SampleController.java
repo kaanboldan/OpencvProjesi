@@ -2,8 +2,7 @@ package application;
 
 import java.io.File;
 import java.net.URL;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -12,6 +11,7 @@ import java.util.concurrent.TimeUnit;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfRect;
+import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
@@ -63,7 +63,7 @@ public class SampleController {
   private boolean cameraActive;
 
   private ScheduledExecutorService timer;
-  
+
   @FXML
   void initialize() {
     finishStartButton.setText("Başlat");
@@ -77,45 +77,37 @@ public class SampleController {
   void finishStartButtonClick(ActionEvent event) {
     System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 
-    if (!this.cameraActive)
-	{
-		this.checkboxSelection("resources/haarcascade_russian_plate_number.xml");
+    if (!this.cameraActive) {
+      this.faceCascade.load("resources/cascade.xml");
 
-		capture.open(1);
-		
-		if (capture.isOpened())
-		{
-			this.cameraActive = true;
-			
-			Runnable frameGrabber = new Runnable() {
-				
-				@Override
-				public void run()
-				{
-					Mat frame = grabFrame();
-					Image imageToShow = Tools.mat2Image(frame);
-					Tools.updateImageView(resultImageView, imageToShow);
-				}
-			};
-			
-			this.timer = Executors.newSingleThreadScheduledExecutor();
-			this.timer.scheduleAtFixedRate(frameGrabber, 0, 33, TimeUnit.MILLISECONDS);
-			
-			this.finishStartButton.setText("Stop Camera");
-		}
-		else
-		{
-			System.err.println("Failed to open the camera connection...");
-		}
-	}
-	else
-	{
-		this.cameraActive = false;
-		this.finishStartButton.setText("Start Camera");
-		
-		this.stopAcquisition();
-	}
-    
+      capture.open(1);
+
+      if (capture.isOpened()) {
+        this.cameraActive = true;
+
+        Runnable frameGrabber = new Runnable() {
+
+          @Override
+          public void run() {
+            Mat frame = grabFrame();
+            Image imageToShow = Tools.mat2Image(frame);
+            Tools.updateImageView(resultImageView, imageToShow);
+          }
+        };
+
+        this.timer = Executors.newSingleThreadScheduledExecutor();
+        this.timer.scheduleAtFixedRate(frameGrabber, 0, 33, TimeUnit.MILLISECONDS);
+
+        this.finishStartButton.setText("Stop Camera");
+      } else {
+        System.err.println("Failed to open the camera connection...");
+      }
+    } else {
+      this.cameraActive = false;
+      this.finishStartButton.setText("Start Camera");
+
+      this.stopAcquisition();
+    }
 
   }
 
@@ -125,20 +117,17 @@ public class SampleController {
     if (this.capture.isOpened()) {
       try {
         this.capture.read(frame);
-
         if (!frame.empty()) {
           this.detectAndDisplay(frame);
         }
-
       } catch (Exception e) {
         System.err.println("Exception during the image elaboration: " + e);
       }
     }
-
     return frame;
   }
-  
-  private void detectAndDisplay(Mat frame) {
+
+  private void detectAndDisplay(Mat frame) throws InterruptedException {
     MatOfRect faces = new MatOfRect();
     Mat grayFrame = new Mat();
 
@@ -147,8 +136,8 @@ public class SampleController {
 
     if (this.absoluteFaceSize == 0) {
       int height = grayFrame.rows();
-      if (Math.round(height * 0.2 ) > 0) {
-        this.absoluteFaceSize = (int) Math.round(height * 0.2 );
+      if (Math.round(height * 0.2) > 0) {
+        this.absoluteFaceSize = (int) Math.round(height * 0.2);
       }
     }
 
@@ -156,29 +145,37 @@ public class SampleController {
       new Size(this.absoluteFaceSize, this.absoluteFaceSize), new Size());
 
     Rect[] facesArray = faces.toArray();
-    for (int i = 0; i < facesArray.length; i++)
-    { Imgproc.rectangle(frame, facesArray[i].tl(), facesArray[i].br(), new Scalar(255,0,0), 3);
-    Rect cropRect = new Rect(facesArray[i].tl(), facesArray[i].br());
+    for (int i = 0; i < facesArray.length; i++) {
+      Imgproc.rectangle(frame, new Point(facesArray[i].tl().x, facesArray[i].tl().y), new Point(facesArray[i].br().x, facesArray[i].br().y), new Scalar(255, 0, 0), 5);
+      Rect cropRect = new Rect(new Point(facesArray[i].tl().x, facesArray[i].tl().y), new Point(facesArray[i].br().x, facesArray[i].br().y));
+      long time = System.currentTimeMillis();
 
-    Mat image_roi = new Mat(frame,cropRect);       
-    long time=System.currentTimeMillis();
-    Imgcodecs.imwrite("cekilen/cekilenfoto/"+time+".png", image_roi);
-    
-    //Tesseract
-	File imageFile = new File("cekilen/cekilenfoto/"+time+".png");
-    ITesseract instance = new Tesseract();  
-    instance.setDatapath("tessdata"); 
-    try {
-        String result = instance.doOCR(imageFile);
+      Mat image_roi = new Mat(frame, cropRect);
+      //Core.rotate(image_roi, image_roi,Core.ROTATE_90_COUNTERCLOCKWISE);
+      Imgcodecs.imwrite("cekilen/kesilmis/" + time + ".png", image_roi);
+      ArrayList < String > resultStringCheck = new ArrayList < String > (); // Create an ArrayList object
+      String result = null;
+      //Tesseract
+      File imageFile = new File("cekilen/kesilmis/" + time + ".png");
+      ITesseract instance = new Tesseract();
+      instance.setDatapath("tessdata");
+      try {
+        result = instance.doOCR(imageFile);
+        resultStringCheck.add(result);
+
+      } catch (Exception e) {
+        System.err.println(e.getMessage());
+      }
+      System.out.println(result);
+      if (result.length() == 8) {
         resultListView.getItems().add(result);
-        System.out.println("Yaziya gecti");
+        Thread.sleep(500);
 
-    } catch (TesseractException e) {
-        //System.err.println(e.getMessage());
-    }
+      }
+
     }
   }
-  
+
   private void stopAcquisition() {
     if (this.timer != null && !this.timer.isShutdown()) {
       try {
@@ -193,30 +190,24 @@ public class SampleController {
       this.capture.release();
     }
   }
-  
-  private void checkboxSelection(String classifierPath)
-	{
-		this.faceCascade.load(classifierPath);
-	}
-	
 
   @FXML
   private Button scan;
 
   @FXML
   void scanclick(ActionEvent event) {
-	File imageFile = new File("cekilen/deneme1.jpeg");
-    Tesseract instance = new Tesseract();  
-    instance.setDatapath("tessdata"); 
+    File imageFile = new File("cekilen/textinjpeg.jpg");
+    ITesseract instance = new Tesseract();
+    instance.setDatapath("tessdata");
 
     try {
-        String result = instance.doOCR(imageFile);
-        resultListView.getItems().add(result);
+      String result = instance.doOCR(imageFile);
+      resultListView.getItems().add(result);
 
     } catch (TesseractException e) {
-        System.err.println(e.getMessage());
+      System.err.println(e.getMessage());
     }
-	  
+
   }
 
 }

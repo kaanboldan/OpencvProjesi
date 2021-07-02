@@ -3,12 +3,11 @@
   <groupId>OpenCVProjesi</groupId>
   <artifactId>OpenCVProjesi</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <dependencies><!-- https://mvnrepository.com/artifact/net.sourceforge.tess4j/tess4j -->
-<!-- https://mvnrepository.com/artifact/net.sourceforge.tess4j/tess4j -->
-<dependency>
+  <dependencies>
+  <dependency>
     <groupId>net.sourceforge.tess4j</groupId>
     <artifactId>tess4j</artifactId>
-    <version>4.1.0</version>
+    <version>4.5.4</version>
 </dependency>
 </dependencies>
   <build>

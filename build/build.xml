@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<project name="OpenCVProjesi" default="do-deploy" basedir="."  xmlns:fx="javafx:com.sun.javafx.tools.ant">
+	<target name="init-fx-tasks">
+		<path id="fxant">
+			<filelist>
+				<file name="${java.home}\..\lib\ant-javafx.jar"/>
+				<file name="${java.home}\lib\jfxrt.jar"/>
+			</filelist>
+		</path>
+	
+		<taskdef resource="com/sun/javafx/tools/ant/antlib.xml"
+			uri="javafx:com.sun.javafx.tools.ant"
+			classpathref="fxant"/>
+	</target>
+	<target name="setup-staging-area">
+		<delete dir="externalLibs" />
+		<delete dir="project" />
+		<delete dir="projectRefs" />
+	
+		<mkdir dir="externalLibs" />
+	
+		<copy todir="externalLibs">
+			<fileset dir="C:\Users\skaanb\Documents\javafx-sdk-11.0.2\lib">
+				<filename name="javafx.controls.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="C:\Users\skaanb\Documents\javafx-sdk-11.0.2\lib">
+				<filename name="javafx.swing.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="C:\Users\skaanb\.m2\repository\org\ghost4j\ghost4j\1.0.1">
+				<filename name="ghost4j-1.0.1.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="C:\Users\skaanb\Documents\javafx-sdk-11.0.2\lib">
+				<filename name="javafx-swt.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="C:\Users\skaanb\.m2\repository\commons-collections\commons-collections\3.2.1">
+				<filename name="commons-collections-3.2.1.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="C:\Users\skaanb\Documents\javafx-sdk-11.0.2\lib">
+				<filename name="javafx.graphics.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="C:\Users\skaanb\.m2\repository\org\apache\pdfbox\pdfbox\2.0.21">
+				<filename name="pdfbox-2.0.21.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="C:\Users\skaanb\Documents\javafx-sdk-11.0.2\lib">
+				<filename name="javafx.base.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="C:\Users\skaanb\.m2\repository\com\lowagie\itext\2.1.7">
+				<filename name="itext-2.1.7.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="C:\Users\skaanb\Documents\javafx-sdk-11.0.2\lib">
+				<filename name="javafx.fxml.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="C:\Users\skaanb\.m2\repository\org\apache\xmlgraphics\xmlgraphics-commons\1.4">
+				<filename name="xmlgraphics-commons-1.4.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="C:\Users\skaanb\.m2\repository\org\apache\pdfbox\jbig2-imageio\3.0.3">
+				<filename name="jbig2-imageio-3.0.3.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="C:\Users\skaanb\.m2\repository\net\sourceforge\tess4j\tess4j\4.5.4">
+				<filename name="tess4j-4.5.4.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="C:\Users\skaanb\.m2\repository\com\github\jai-imageio\jai-imageio-core\1.4.0">
+				<filename name="jai-imageio-core-1.4.0.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="C:\Users\skaanb\.m2\repository\org\slf4j\slf4j-api\1.7.30">
+				<filename name="slf4j-api-1.7.30.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="C:\Users\skaanb\.m2\repository\net\sourceforge\lept4j\lept4j\1.13.2">
+				<filename name="lept4j-1.13.2.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="C:\Users\skaanb\.m2\repository\org\apache\pdfbox\pdfbox-debugger\2.0.21">
+				<filename name="pdfbox-debugger-2.0.21.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="C:\Users\skaanb\.m2\repository\org\apache\pdfbox\pdfbox-tools\2.0.21">
+				<filename name="pdfbox-tools-2.0.21.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="C:\Users\skaanb\Documents\javafx-sdk-11.0.2\lib">
+				<filename name="javafx.web.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="C:\Users\skaanb\Documents\GitHub\OpenCVProjesi\Tools\OpenCV">
+				<filename name="opencv-451.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="C:\Users\skaanb\.m2\repository\log4j\log4j\1.2.17">
+				<filename name="log4j-1.2.17.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="C:\Users\skaanb\Documents\javafx-sdk-11.0.2\lib">
+				<filename name="javafx.media.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="C:\Users\skaanb\.m2\repository\commons-io\commons-io\2.8.0">
+				<filename name="commons-io-2.8.0.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="C:\Users\skaanb\.m2\repository\org\apache\pdfbox\fontbox\2.0.21">
+				<filename name="fontbox-2.0.21.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="C:\Users\skaanb\.m2\repository\org\jboss\logging\jboss-logging\3.1.4.GA">
+				<filename name="jboss-logging-3.1.4.GA.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="C:\Users\skaanb\.m2\repository\net\java\dev\jna\jna\5.6.0">
+				<filename name="jna-5.6.0.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="C:\Users\skaanb\.m2\repository\org\jboss\jboss-vfs\3.2.15.Final">
+				<filename name="jboss-vfs-3.2.15.Final.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="C:\Users\skaanb\.m2\repository\commons-beanutils\commons-beanutils\1.9.2">
+				<filename name="commons-beanutils-1.9.2.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="C:\Users\skaanb\.m2\repository\commons-logging\commons-logging\1.2">
+				<filename name="commons-logging-1.2.jar"/>
+			</fileset>
+		</copy>
+	
+		<mkdir dir="project" />
+		<copy todir="project">
+			<fileset dir="C:\Users\skaanb\Desktop\OpencvProjesi-cc4a8cd2632fe975b54a96e78d587562142e90aa">
+				<include name="src/**" />
+			</fileset>
+		</copy>
+	
+		<mkdir dir="projectRefs" />
+	</target>
+	<target name='do-compile'>
+		<delete dir="build" />
+		<mkdir dir="build/src" />
+		<mkdir dir="build/libs" />
+		<mkdir dir="build/classes" />
+	
+		<!-- Copy project-libs references -->
+		<copy todir="build/libs">
+			<fileset dir="externalLibs">
+				<include name="javafx-swt.jar"/>
+				<include name="javafx.fxml.jar"/>
+				<include name="jbig2-imageio-3.0.3.jar"/>
+				<include name="pdfbox-debugger-2.0.21.jar"/>
+				<include name="javafx.controls.jar"/>
+				<include name="commons-logging-1.2.jar"/>
+				<include name="javafx.media.jar"/>
+				<include name="slf4j-api-1.7.30.jar"/>
+				<include name="fontbox-2.0.21.jar"/>
+				<include name="javafx.swing.jar"/>
+				<include name="javafx.graphics.jar"/>
+				<include name="xmlgraphics-commons-1.4.jar"/>
+				<include name="pdfbox-2.0.21.jar"/>
+				<include name="commons-collections-3.2.1.jar"/>
+				<include name="jboss-logging-3.1.4.GA.jar"/>
+				<include name="jboss-vfs-3.2.15.Final.jar"/>
+				<include name="log4j-1.2.17.jar"/>
+				<include name="javafx.web.jar"/>
+				<include name="ghost4j-1.0.1.jar"/>
+				<include name="jna-5.6.0.jar"/>
+				<include name="opencv-451.jar"/>
+				<include name="lept4j-1.13.2.jar"/>
+				<include name="itext-2.1.7.jar"/>
+				<include name="pdfbox-tools-2.0.21.jar"/>
+				<include name="jai-imageio-core-1.4.0.jar"/>
+				<include name="commons-io-2.8.0.jar"/>
+				<include name="tess4j-4.5.4.jar"/>
+				<include name="commons-beanutils-1.9.2.jar"/>
+				<include name="javafx.base.jar"/>
+			</fileset>
+		</copy>
+	
+		<!-- Copy project references -->
+	
+		<!-- Copy project sources itself -->
+		<copy todir="build/src">
+			<fileset dir="project/src">
+				<include name="**/*"/>
+			</fileset>
+		</copy>
+	
+		<javac includeantruntime="false" source="15" target="15" srcdir="build/src" destdir="build/classes" encoding="Cp1252">
+			<classpath>
+				<fileset dir="build/libs">
+					<include name="*"/>
+				</fileset>
+			</classpath>
+		</javac>
+	
+		<!-- Copy over none Java-Files -->
+		<copy todir="build/classes">
+		<fileset dir="project/src">
+			<exclude name="**/*.java"/>
+		</fileset>
+		</copy>
+	
+	
+	</target>
+	<target name="do-deploy" depends="setup-staging-area, do-compile, init-fx-tasks">
+		<delete file="dist"/>
+		<delete file="deploy" />
+	
+		<mkdir dir="dist" />
+		<mkdir dir="dist/libs" />
+	
+		<copy todir="dist/libs">
+			<fileset dir="externalLibs">
+				<include name="*" />
+			</fileset>
+		</copy>
+	
+	
+		<fx:resources id="appRes">
+			<fx:fileset dir="dist" includes="OpenCVProjesi.jar"/>
+			<fx:fileset dir="dist" includes="libs/*"/>
+		</fx:resources>
+	
+		<fx:application id="fxApplication"
+			name="opencvProj"
+			mainClass="application.Main"
+			toolkit="fx"
+		/>
+	
+		<mkdir dir="build/classes/META-INF" />
+	
+	
+	
+		<fx:jar destfile="dist/OpenCVProjesi.jar">
+			<fx:application refid="fxApplication"/>
+			<fileset dir="build/classes">
+			</fileset>
+			<fx:resources refid="appRes"/>
+	
+			<manifest>
+				<attribute name="Implementation-Vendor" value="com.skaanb"/>
+				<attribute name="Implementation-Title" value="opencvProj"/>
+				<attribute name="Implementation-Version" value="1.0"/>
+				<attribute name="JavaFX-Feature-Proxy" value="None"/>
+			</manifest>
+		</fx:jar>
+	
+	
+		<mkdir dir="deploy" />
+		<!-- Need to use ${basedir} because somehow the ant task is calculating the directory differently -->
+		<fx:deploy
+			embedJNLP="false"
+			extension="false"
+			includeDT="false"
+			offlineAllowed="true"
+			outdir="${basedir}/deploy"
+			outfile="OpenCVProjesi" nativeBundles="image"
+			updatemode="background" >
+	
+			<fx:platform basedir="${java.home}"/>
+			<fx:info title="OpenCVProjesi" vendor="com.skaanb"/>
+	
+			<fx:application refId="fxApplication"/>
+			<fx:resources refid="appRes"/>
+		</fx:deploy>
+	
+	
+	</target>
+</project>
